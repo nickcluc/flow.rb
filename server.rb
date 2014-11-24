@@ -13,9 +13,8 @@ def get_tracks(input)
     :q => 'house chill',
     :duration =>{
       :from => time - 300000, :to => time + 300000},
-    :limit => 30
+    :limit => 50
   )
-
   uri = playlists.sample["uri"]
 
   uri
