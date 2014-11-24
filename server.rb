@@ -17,9 +17,5 @@ end
 get '/list' do
   input = params[:query]
   @tracks = get_tracks(input)
-  if get_tracks != nil
-    erb :list
-  else
-    redirect '/'
-  end 
+  erb :list
 end
