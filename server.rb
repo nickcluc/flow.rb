@@ -1,7 +1,10 @@
 require 'soundcloud'
 require 'sinatra'
+require 'sinatra/reloader'
+require 'pry'
 
-def get_tracks(input)
+def get_tracks(input, music_type)
+
   time = input.to_i * 60000
 
   client = SoundCloud.new(
@@ -10,14 +13,16 @@ def get_tracks(input)
 
   playlists = client.get(
     '/tracks',
-    :q => 'house chill',
+    :q => "#{music_type}",
     :duration =>{
       :from => time - 300000, :to => time + 300000},
     :limit => 50
   )
+
   uri = playlists.sample["uri"]
 
   uri
+
 end
 
 
@@ -27,6 +32,7 @@ end
 
 get '/list' do
   input = params[:query]
-  @tracks = get_tracks(input)
+  music_type = params[:option]
+  @tracks = get_tracks(input, music_type)
   erb :list
 end
