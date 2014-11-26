@@ -1,6 +1,6 @@
 require 'soundcloud'
 require 'sinatra'
-require 'pry'
+# require 'pry'
 
 def get_tracks(input, music_type)
 
@@ -19,7 +19,7 @@ def get_tracks(input, music_type)
   )
 
   uri = playlists.sample["uri"]
-  binding.pry
+  # binding.pry
   uri
 
 end
