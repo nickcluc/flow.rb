@@ -1,12 +1,13 @@
 require 'soundcloud'
 require 'sinatra'
+require 'pry'
 
 def get_tracks(input, music_type)
 
   time = input.to_i * 60000
 
   client = SoundCloud.new(
-    :client_id => ENV['SOUNDCLOUD_API_ID']
+    :client_id => '71d297a0573a3d0e909f86ed41f160c5'
   )
 
   playlists = client.get(
@@ -18,7 +19,7 @@ def get_tracks(input, music_type)
   )
 
   uri = playlists.sample["uri"]
-
+  binding.pry
   uri
 
 end
