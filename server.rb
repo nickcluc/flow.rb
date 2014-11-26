@@ -1,7 +1,5 @@
 require 'soundcloud'
 require 'sinatra'
-require 'sinatra/reloader'
-require 'pry'
 
 def get_tracks(input, music_type)
 
