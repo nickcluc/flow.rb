@@ -1,6 +1,5 @@
 require 'soundcloud'
 require 'sinatra'
-# require 'pry'
 
 def get_tracks(input, music_type)
 
@@ -32,6 +31,10 @@ end
 get '/list' do
   input = params[:query]
   music_type = params[:option]
-  @tracks = get_tracks(input, music_type)
+  if params[:option] == "steve"
+    @tracks = "https://api.soundcloud.com/playlists/56155594&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false"
+  else
+    @tracks = get_tracks(input, music_type)
+  end
   erb :list
 end
