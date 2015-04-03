@@ -18,7 +18,7 @@ def get_tracks(input, music_type)
   )
 
   uri = playlists.sample["uri"]
-  # binding.pry
+  
   uri
 
 end
