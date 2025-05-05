@@ -1,5 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '2.0.0'
+ruby '3.3.1'
 gem 'soundcloud'
 gem 'sinatra'
+gem 'dotenv'
+gem 'httparty'
+gem 'base64'
+gem 'securerandom'
+gem 'sinatra-contrib'

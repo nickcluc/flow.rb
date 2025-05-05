@@ -1,15 +1,43 @@
 <div class="row">
   <div class="small-12 small-centered large-6 large-centered columns">
-    <a href='#' onclick='location.reload(true); return false;'>get a new flow</a>
-    <iframe width="100%" align = "centered" scrolling="no" frameborder="no"
+    <a href="#" onclick="location.reload(true); return false;">get a new flow</a>
+    <iframe width="100%" align="centered" scrolling="no" frameborder="no"
     src="https://w.soundcloud.com/player/?url=<%= @tracks %>&amp;auto_play=true&amp;
     hide_related=false&amp;show_comments=false&amp;show_user=true&amp;
     show_reposts=false&amp;visual=false"></iframe>
   </div>
 </div>
-      <div class="row">
-        <div class="small-3 small-centered large-6 large-centered columns">
-          <a href="/">Go back</a>
-        </div>
 
-      </div>
+<% if @playlist_info %>
+<div class="row">
+  <div class="small-12 small-centered large-6 large-centered columns">
+    <h4>Now Playing: <%= @playlist_info['title'] %></h4>
+    <p><%= @playlist_info['description'] %></p>
+  </div>
+</div>
+<% end %>
+
+<div class="row">
+  <div class="small-12 small-centered large-6 large-centered columns">
+    <div class="action-links">
+      <a href="/" class="button small">Go back</a>
+      <a href="/logout" class="button small alert">Logout</a>
+
+      <% if @user_playlists && !@user_playlists.empty? %>
+        <div class="my-playlists" style="margin-top: 20px;">
+          <h5>Quick access to my playlists:</h5>
+          <ul class="no-bullet">
+            <% @user_playlists.take(5).each do |playlist| %>
+              <li>
+                <a href="/play_playlist/<%= playlist['id'] %>"><%= playlist['title'] %></a>
+              </li>
+            <% end %>
+          </ul>
+          <% if @user_playlists.size > 5 %>
+            <a href="/">View all playlists</a>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

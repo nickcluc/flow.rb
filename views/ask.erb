@@ -1,4 +1,3 @@
-
 <div class="row">
   <div class="small-12 small-centered large-6 large-centered columns">
     <p>
@@ -7,6 +6,9 @@
       activity is fully immersed in a feeling of energized focus,
       full involvement, and enjoyment in the process of the activity. - Wikipedia
     </p>
+    <p class="success-message">
+      You are authorized with SoundCloud! Ready to get in the flow?
+    </p>
   </div>
 </div>
 
@@ -14,28 +16,59 @@
   <form action="/list" method="get">
 
     <div class="row">
-
       <div class="small-6 small-centered large-6 large-centered columns">
-
-
-
         <label>What music helps you GSD (Get Shit Done)?
-          <select name="option">
+          <select name="option" id="music_option">
             <option value="chill house">Chill House</option>
             <option value="chill hip hop">Rap Flow</option>
             <option value="smooth jazz">Jazz</option>
             <option value="classical">Classical</option>
             <option value="steve">Steve & Nate's Heady Grooves</option>
+            <option value="my_playlist">My SoundCloud Playlist</option>
           </select>
         </label>
-        
+
+        <div id="playlist_selector" style="display: none;">
+          <label>Select one of your playlists:
+            <select name="playlist_id">
+              <% if @user_playlists && !@user_playlists.empty? %>
+                <% @user_playlists.each do |playlist| %>
+                  <option value="<%= playlist['id'] %>"><%= playlist['title'] %></option>
+                <% end %>
+              <% else %>
+                <option value="">No playlists found</option>
+              <% end %>
+            </select>
+          </label>
+          <% if @playlist_error %>
+            <p class="error"><%= @playlist_error %></p>
+          <% end %>
+        </div>
+
+        <div id="duration_input">
           <input type="text" placeholder="How many minutes do you want to code for?" name="query" id="query" />
+        </div>
+
         <input type="submit" class="button postfix alert" value="Search" />
       </div>
 
       <div class="small-3 columns">
       </div>
-
     </div>
   </form>
 </div>
+
+<script>
+  document.getElementById("music_option").addEventListener("change", function() {
+    var playlistSelector = document.getElementById("playlist_selector");
+    var durationInput = document.getElementById("duration_input");
+
+    if (this.value === "my_playlist") {
+      playlistSelector.style.display = "block";
+      durationInput.style.display = "none";
+    } else {
+      playlistSelector.style.display = "none";
+      durationInput.style.display = "block";
+    }
+  });
+</script>
