@@ -1,0 +1,134 @@
+/* Custom styles for Flow.rb */
+
+body {
+  background-color: #fafafa;
+}
+
+header {
+  background: linear-gradient(135deg, #4e54c8, #8f94fb);
+  color: white;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  color: white;
+  font-weight: 700;
+}
+
+header h2.subheader {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.success-message {
+  color: #3adb76;
+  font-weight: bold;
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.callout {
+  border-radius: 8px;
+}
+
+.callout.primary {
+  border-left: 5px solid #1779ba;
+}
+
+.callout.secondary {
+  border-left: 5px solid #767676;
+}
+
+.my-playlists {
+  margin-top: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 5px solid #8f94fb;
+}
+
+.button {
+  border-radius: 4px;
+}
+
+.button.alert {
+  background-color: #fc5185;
+}
+
+.button.alert:hover {
+  background-color: #f03e6b;
+}
+
+.button.success {
+  background-color: #3adb76;
+  transition: all 0.3s ease;
+}
+
+.button.success:hover {
+  background-color: #22bb5b;
+  transform: scale(1.05);
+}
+
+.button.primary {
+  background-color: #1779ba;
+  transition: all 0.2s ease;
+}
+
+.button.primary:hover {
+  background-color: #156295;
+}
+
+.button-group.expanded {
+  margin-bottom: 1rem;
+}
+
+.button-group.expanded .button {
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+#play-button {
+  min-width: 120px;
+  font-weight: bold;
+}
+
+.autoplay-message {
+  color: #8a8a8a;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.responsive-embed {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.margin-bottom-1 {
+  margin-bottom: 1rem;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+h5.no-margin {
+  line-height: 1.2;
+}
+
+.grid-x.align-middle {
+  align-items: center;
+}
+
+footer {
+  background: #364f6b;
+  color: white;
+  padding: 1.5rem 0;
+  margin-top: 2rem;
+}
+
+footer p {
+  color: rgba(255, 255, 255, 0.7);
+}

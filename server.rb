@@ -15,7 +15,6 @@ config = FlowApp::Config.new
 
 # Initialize services
 before do
-  puts config.inspect
   @auth_service = AuthService.new(
     config.client_id,
     config.client_secret,

@@ -1,74 +1,90 @@
-<div class="row">
-  <div class="small-12 small-centered large-6 large-centered columns">
-    <p>
-      In positive psychology, Flow, also known as Zone, is the
-      mental state of operation in which a person performing an
-      activity is fully immersed in a feeling of energized focus,
-      full involvement, and enjoyment in the process of the activity. - Wikipedia
-    </p>
-    <p class="success-message">
-      You are authorized with SoundCloud! Ready to get in the flow?
-    </p>
+<div class="grid-x grid-padding-x align-center">
+  <div class="cell small-12 medium-10 large-8">
+    <div class="callout primary">
+      <p>
+        In positive psychology, Flow, also known as Zone, is the
+        mental state of operation in which a person performing an
+        activity is fully immersed in a feeling of energized focus,
+        full involvement, and enjoyment in the process of the activity. - Wikipedia
+      </p>
+      <p class="success-message">
+        <i class="fas fa-check-circle"></i> You are authorized with SoundCloud! Ready to get in the flow?
+      </p>
+    </div>
   </div>
 </div>
 
-<div class="search">
-  <form action="/list" method="get">
-
-    <div class="row">
-      <div class="small-6 small-centered large-6 large-centered columns">
-        <label>What music helps you GSD (Get Shit Done)?
-          <select name="option" id="music_option">
-            <option value="chill house">Chill House</option>
-            <option value="chill hip hop">Rap Flow</option>
-            <option value="smooth jazz">Jazz</option>
-            <option value="classical">Classical</option>
-            <option value="steve">Steve & Nate's Heady Grooves</option>
-            <option value="my_playlist">My SoundCloud Playlist</option>
-          </select>
-        </label>
-
-        <div id="playlist_selector" style="display: none;">
-          <label>Select one of your playlists:
-            <select name="playlist_id">
-              <% if @user_playlists && !@user_playlists.empty? %>
-                <% @user_playlists.each do |playlist| %>
-                  <option value="<%= playlist['id'] %>"><%= playlist['title'] %></option>
-                <% end %>
-              <% else %>
-                <option value="">No playlists found</option>
-              <% end %>
+<div class="grid-x grid-padding-x align-center">
+  <div class="cell small-12 medium-10 large-8">
+    <div class="card">
+      <div class="card-section">
+        <form action="/list" method="get">
+          <label for="music_option">What music helps you GSD (Get Shit Done)?
+            <select name="option" id="music_option">
+              <option value="chill house">Chill House</option>
+              <option value="chill hip hop">Rap Flow</option>
+              <option value="smooth jazz">Jazz</option>
+              <option value="classical">Classical</option>
+              <option value="steve">Steve & Nate's Heady Grooves</option>
+              <option value="my_playlist">My SoundCloud Playlist</option>
             </select>
           </label>
-          <% if @playlist_error %>
-            <p class="error"><%= @playlist_error %></p>
-          <% end %>
-        </div>
 
-        <div id="duration_input">
-          <input type="text" placeholder="How many minutes do you want to code for?" name="query" id="query" />
-        </div>
+          <div id="playlist_selector" style="display: none;">
+            <label for="playlist_id">Select one of your playlists:
+              <select name="playlist_id" id="playlist_id">
+                <% if @user_playlists && !@user_playlists.empty? %>
+                  <% @user_playlists.each do |playlist| %>
+                    <option value="<%= playlist['id'] %>"><%= playlist['title'] %></option>
+                  <% end %>
+                <% else %>
+                  <option value="">No playlists found</option>
+                <% end %>
+              </select>
+            </label>
+            <% if @playlist_error %>
+              <div class="callout alert">
+                <p><%= @playlist_error %></p>
+              </div>
+            <% end %>
+          </div>
 
-        <input type="submit" class="button postfix alert" value="Search" />
-      </div>
+          <div id="duration_input">
+            <label for="query">How many minutes do you want to code for?
+              <input type="number" min="1" placeholder="Enter minutes" name="query" id="query" />
+            </label>
+          </div>
 
-      <div class="small-3 columns">
+          <button type="submit" class="button expanded alert">
+            <i class="fas fa-search"></i> Find Music
+          </button>
+        </form>
       </div>
     </div>
-  </form>
+  </div>
 </div>
 
 <script>
-  document.getElementById("music_option").addEventListener("change", function() {
+  document.addEventListener("DOMContentLoaded", function() {
+    var musicOption = document.getElementById("music_option");
     var playlistSelector = document.getElementById("playlist_selector");
     var durationInput = document.getElementById("duration_input");
 
-    if (this.value === "my_playlist") {
+    // Set initial state
+    if (musicOption.value === "my_playlist") {
       playlistSelector.style.display = "block";
       durationInput.style.display = "none";
-    } else {
-      playlistSelector.style.display = "none";
-      durationInput.style.display = "block";
     }
+
+    // Add change event listener
+    musicOption.addEventListener("change", function() {
+      if (this.value === "my_playlist") {
+        playlistSelector.style.display = "block";
+        durationInput.style.display = "none";
+      } else {
+        playlistSelector.style.display = "none";
+        durationInput.style.display = "block";
+      }
+    });
   });
 </script>

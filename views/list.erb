@@ -1,43 +1,136 @@
-<div class="row">
-  <div class="small-12 small-centered large-6 large-centered columns">
-    <a href="#" onclick="location.reload(true); return false;">get a new flow</a>
-    <iframe width="100%" align="centered" scrolling="no" frameborder="no"
-    src="https://w.soundcloud.com/player/?url=<%= @tracks %>&amp;auto_play=true&amp;
-    hide_related=false&amp;show_comments=false&amp;show_user=true&amp;
-    show_reposts=false&amp;visual=false"></iframe>
+<div class="grid-x grid-padding-x align-center margin-bottom-1">
+  <div class="cell small-12 medium-10 large-8">
+    <div class="card">
+      <div class="card-section">
+        <div class="grid-x grid-padding-x align-middle margin-bottom-1">
+          <div class="cell small-6">
+            <h5 class="no-margin"><i class="fas fa-headphones"></i> Now Playing</h5>
+          </div>
+          <div class="cell small-6 text-right">
+            <button class="button small clear" onclick="location.reload(true); return false;">
+              <i class="fas fa-sync-alt"></i> Get a new flow
+            </button>
+          </div>
+        </div>
+
+        <div class="responsive-embed" id="soundcloud-container">
+          <iframe id="soundcloud-player" width="100%" scrolling="no" frameborder="no"
+          src="https://w.soundcloud.com/player/?url=<%= @tracks %>&auto_play=true&color=%23ff5500&hide_related=false&show_comments=false&show_user=true&show_reposts=false&visual=false"></iframe>
+        </div>
+        <div class="text-center margin-top-1">
+          <button id="play-button" class="button small success" style="display:none;">
+            <i class="fas fa-play"></i> Play
+          </button>
+          <p id="autoplay-message" class="autoplay-message" style="display:none;">
+            Autoplay was blocked by your browser. Click the play button to start.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <% if @playlist_info %>
-<div class="row">
-  <div class="small-12 small-centered large-6 large-centered columns">
-    <h4>Now Playing: <%= @playlist_info['title'] %></h4>
-    <p><%= @playlist_info['description'] %></p>
-  </div>
-</div>
-<% end %>
-
-<div class="row">
-  <div class="small-12 small-centered large-6 large-centered columns">
-    <div class="action-links">
-      <a href="/" class="button small">Go back</a>
-      <a href="/logout" class="button small alert">Logout</a>
-
-      <% if @user_playlists && !@user_playlists.empty? %>
-        <div class="my-playlists" style="margin-top: 20px;">
-          <h5>Quick access to my playlists:</h5>
-          <ul class="no-bullet">
-            <% @user_playlists.take(5).each do |playlist| %>
-              <li>
-                <a href="/play_playlist/<%= playlist['id'] %>"><%= playlist['title'] %></a>
-              </li>
-            <% end %>
-          </ul>
-          <% if @user_playlists.size > 5 %>
-            <a href="/">View all playlists</a>
-          <% end %>
-        </div>
+<div class="grid-x grid-padding-x align-center margin-bottom-1">
+  <div class="cell small-12 medium-10 large-8">
+    <div class="callout secondary">
+      <h4><i class="fas fa-music"></i> Now Playing: <%= @playlist_info['title'] %></h4>
+      <% if @playlist_info['description'] %>
+        <p><%= @playlist_info['description'] %></p>
       <% end %>
     </div>
   </div>
 </div>
+<% end %>
+
+<div class="grid-x grid-padding-x align-center">
+  <div class="cell small-12 medium-10 large-8">
+    <!-- Navigation controls -->
+    <div class="button-group expanded margin-bottom-1">
+      <a href="/" class="button">
+        <i class="fas fa-home"></i> Home
+      </a>
+      <button class="button primary" onclick="location.reload(true); return false;">
+        <i class="fas fa-random"></i> New Track
+      </button>
+      <a href="/logout" class="button alert">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+
+    <% if @user_playlists && !@user_playlists.empty? %>
+      <div class="callout my-playlists">
+        <h5><i class="fas fa-list"></i> Quick access to my playlists</h5>
+        <div class="grid-x grid-padding-x small-up-1 medium-up-2">
+          <% @user_playlists.take(6).each do |playlist| %>
+            <div class="cell margin-bottom-1">
+              <a href="/play_playlist/<%= playlist['id'] %>" class="button small secondary expanded">
+                <i class="fas fa-play-circle"></i> <%= playlist['title'] %>
+              </a>
+            </div>
+          <% end %>
+        </div>
+        <% if @user_playlists.size > 6 %>
+          <a href="/" class="button small expanded hollow">
+            <i class="fas fa-th-list"></i> View all playlists
+          </a>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the SoundCloud Widget API
+    var iframe = document.getElementById('soundcloud-player');
+    var playButton = document.getElementById('play-button');
+    var autoplayMessage = document.getElementById('autoplay-message');
+    var iframeElement = iframe;
+
+    // Handle autoplay fallback
+    setTimeout(function() {
+      // Check if autoplay might be blocked
+      if (playButton && iframe) {
+        playButton.style.display = 'inline-block';
+        if (autoplayMessage) {
+          autoplayMessage.style.display = 'block';
+        }
+
+        playButton.addEventListener('click', function() {
+          // Try to reload the iframe with autoplay
+          iframe.src = iframe.src;
+          playButton.style.display = 'none';
+          if (autoplayMessage) {
+            autoplayMessage.style.display = 'none';
+          }
+        });
+      }
+    }, 2000);
+
+    // Improve player API integration
+    if (window.SC) {
+      try {
+        var widget = SC.Widget(iframe);
+        widget.bind(SC.Widget.Events.READY, function() {
+          widget.bind(SC.Widget.Events.PLAY, function() {
+            // Track is playing, hide the play button
+            if (playButton) {
+              playButton.style.display = 'none';
+              if (autoplayMessage) {
+                autoplayMessage.style.display = 'none';
+              }
+            }
+          });
+
+          widget.bind(SC.Widget.Events.FINISH, function() {
+            // Automatically load a new track when done
+            location.reload(true);
+          });
+        });
+      } catch (e) {
+        console.error("SoundCloud Widget API error:", e);
+      }
+    }
+  });
+</script>
